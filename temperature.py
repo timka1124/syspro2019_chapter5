@@ -2,6 +2,7 @@
 
 from smbus2 import SMBus
 import time
+import threading
 
 bus_number  = 1
 i2c_address = 0x76
@@ -138,9 +139,28 @@ def setup():
 setup()
 get_calib_param()
 
+def worker():
+	print(time.time())
+	readData()
+    	time.sleep(8)
+
+
+
+def scheduler(interval, f, wait = True):
+    base_time = time.time()
+    next_time = 0
+    while True:
+        t = threading.Thread(target = f)
+        t.start()
+        if wait:
+            t.join()
+        next_time = ((base_time - time.time()) % interval) or interval
+        time.sleep(next_time)
+
+
 
 if __name__ == '__main__':
 	try:
-		readData()
+		scheduler(10, worker, False)
 	except KeyboardInterrupt:
 		pass
