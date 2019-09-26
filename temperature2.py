@@ -151,9 +151,9 @@ def worker():
                 data["id%d" % i] = OrderedDict([
 	                ("time" , datetime.datetime.now()
                             .strftime("%Y-%m-%d %H:%M:%S")),
-                        ("temp" , float(temp)),
-                        ("pres" , float(pres)),
-                        ("hum" , float(hum))
+                        ("temp" , round(temp,2)),
+                        ("pres" , round(pres,2)),
+                        ("hum" , round(hum,2))
                 ])
 
                 f = open("result.json", "w")
